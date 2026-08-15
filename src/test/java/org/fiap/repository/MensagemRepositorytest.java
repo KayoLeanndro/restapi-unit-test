@@ -3,7 +3,10 @@ package org.fiap.repository;
 import org.fiap.model.Mensagem;
 import org.fiap.model.Usuario;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.UUID;
 
@@ -14,6 +17,18 @@ public class MensagemRepositorytest {
 
     @Mock
     private MensagemRepository mensagemRepository;
+    AutoCloseable mock;
+
+    @BeforeEach
+    void setup(){
+        mock = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        mock.close();
+    }
+
 
     @Test
     public void devePermitirRegistrarMensagem(){
