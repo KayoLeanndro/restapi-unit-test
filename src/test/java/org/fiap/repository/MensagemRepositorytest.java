@@ -1,7 +1,7 @@
 package org.fiap.repository;
 
+import org.fiap.helper.MensagemHelper;
 import org.fiap.model.Mensagem;
-import org.fiap.model.Usuario;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,15 +20,17 @@ public class MensagemRepositorytest {
     @Mock
     private MensagemRepository mensagemRepository;
 
+    MensagemHelper mensagemHelper = new MensagemHelper();
+
     @Test
     public void devePermitirRegistrarMensagem(){
-        var mensagem = gerarMensagem();
+        var mensagem = mensagemHelper.gerarMensagem();
 
         //Arrange - Preparar
         //Quando o repository salvar qualquer objeto do tipo mensagem deve retornar o objeto Mensagem
         when(mensagemRepository.save(any(Mensagem.class))).thenReturn(mensagem);
         //Act - Atuar
-        var mensagemArmazena = mensagemRepository.save(mensagem);
+        var mensagemArmazenada = mensagemRepository.save(mensagem);
 
         //Assert - Validar
         verify(mensagemRepository, times(1)).save(mensagem);
@@ -38,7 +40,7 @@ public class MensagemRepositorytest {
     public void devePermitirConsultarMensagem(){
 
         //Arrange - Preparar
-        var mensagem = gerarMensagem();
+        var mensagem = mensagemHelper.gerarMensagem();
         when(mensagemRepository.findById(any(UUID.class))).thenReturn(Optional.of(mensagem));
 
         //Act - Atuar
@@ -54,7 +56,7 @@ public class MensagemRepositorytest {
     public void devePermitirApagarMensagem(){
 
         //Arrange - Preparar
-        var mensagem = gerarMensagem();
+        var mensagem = mensagemHelper.gerarMensagem();
         doNothing().when(mensagemRepository).deleteById(any(UUID.class));
 
         //Act - Atuar
@@ -63,21 +65,4 @@ public class MensagemRepositorytest {
         //Assert - Validar
        verify(mensagemRepository, times(1)).deleteById(mensagem.getId());
     }
-
-    private Mensagem gerarMensagem(){
-        Mensagem mensagem = new Mensagem();
-        mensagem.setId(UUID.randomUUID());
-        mensagem.setConteudo("Um Post Sobre Cabras");
-        mensagem.setUsuario(gerarUsuario());
-
-        return mensagem;
-    }
-
-    private Usuario gerarUsuario(){
-        Usuario usuario = new Usuario();
-        usuario.setNome("Ruth Camile");
-
-        return usuario;
-    }
-
 }
