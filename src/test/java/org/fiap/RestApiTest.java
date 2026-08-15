@@ -9,4 +9,30 @@ import junit.framework.TestSuite;
  */
 public class RestApiTest
     extends TestCase
-{}
+{
+    /**
+     * Create the test case
+     *
+     * @param testName name of the test case
+     */
+    public RestApiTest(String testName )
+    {
+        super( testName );
+    }
+
+    /**
+     * @return the suite of tests being tested
+     */
+    public static Test suite()
+    {
+        return new TestSuite( RestApiTest.class );
+    }
+
+    /**
+     * Rigourous Test :-)
+     */
+    public void testApp()
+    {
+        assertTrue( true );
+    }
+}

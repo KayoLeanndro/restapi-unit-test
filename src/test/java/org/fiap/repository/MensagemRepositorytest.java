@@ -2,33 +2,22 @@ package org.fiap.repository;
 
 import org.fiap.model.Mensagem;
 import org.fiap.model.Usuario;
-import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MensagemRepositorytest {
 
     @Mock
     private MensagemRepository mensagemRepository;
-    AutoCloseable mock;
-
-    @BeforeEach
-    void setup(){
-        mock = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        mock.close();
-    }
-
 
     @Test
     public void devePermitirRegistrarMensagem(){
@@ -37,9 +26,23 @@ public class MensagemRepositorytest {
         //Arrange - Preparar
         //Quando o repository salvar qualquer objeto do tipo mensagem deve retornar o objeto Mensagem
         when(mensagemRepository.save(any(Mensagem.class))).thenReturn(mensagem);
-
         //Act - Atuar
         var mensagemArmazena = mensagemRepository.save(mensagem);
+
+        //Assert - Validar
+        verify(mensagemRepository, times(1)).save(mensagem);
+    }
+
+    @Test
+    public void devePermitirConsultarMensagem(){
+
+        //Arrange - Preparar
+        var mensagem = gerarMensagem();
+        when(mensagemRepository.findById(any(UUID.class))).thenReturn(Optional.of(mensagem));
+
+        //Act - Atuar
+        var mensagemEncontrada = mensagemRepository.findById(mensagem.getId());
+
     }
 
     private Mensagem gerarMensagem(){
