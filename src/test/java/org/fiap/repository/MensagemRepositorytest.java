@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +44,24 @@ public class MensagemRepositorytest {
         //Act - Atuar
         var mensagemEncontrada = mensagemRepository.findById(mensagem.getId());
 
+        //Assert - Validar
+        assertThat(mensagemEncontrada)
+                .isNotNull()
+                .contains(mensagem);
+    }
+
+    @Test
+    public void devePermitirApagarMensagem(){
+
+        //Arrange - Preparar
+        var mensagem = gerarMensagem();
+        doNothing().when(mensagemRepository).deleteById(any(UUID.class));
+
+        //Act - Atuar
+        mensagemRepository.deleteById(mensagem.getId());
+
+        //Assert - Validar
+       verify(mensagemRepository, times(1)).deleteById(mensagem.getId());
     }
 
     private Mensagem gerarMensagem(){
