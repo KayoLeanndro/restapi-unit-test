@@ -10,7 +10,6 @@ public class MensagemHelper {
 
     public Mensagem gerarMensagem(){
         Mensagem mensagem = new Mensagem();
-        mensagem.setId(UUID.randomUUID());
         mensagem.setConteudo("Um Post Sobre Cabras");
         mensagem.setUsuario(usuarioHelper.gerarUsuario());
 

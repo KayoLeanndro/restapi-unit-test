@@ -38,7 +38,7 @@ public class MensagemServiceTest {
         //Act - Atuar
         var mensagemRegistrada = mensagemService.registrarMensagem(mensagem);
 
-        //Assert
+        //Assert - Validar
         assertThat(mensagemRegistrada)
                 .isNotNull()
                 .isInstanceOf(Mensagem.class);
